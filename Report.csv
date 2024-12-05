@@ -1,0 +1,4 @@
+Train Loss,Test Loss,Train Accuracy,Test Accuracy,Train precision,Test precision,Train Recall,Test Recall
+2.21,2.22,0.44,0.43,0.87,0.86,0.06,0.06
+0.09,0.16,0.97,0.94,0.98,0.96,0.96,0.94
+0.0,0.02,1.0,0.99,1.0,0.99,1.0,0.99
