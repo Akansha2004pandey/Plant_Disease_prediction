@@ -5,30 +5,29 @@ from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 def preprocess_image(image):
-    image = image.resize((224, 224))  # Resize image to 224x224 as expected by the models
+    image = image.resize((224, 224))
     image_array = img_to_array(image)
-    image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
-    image_array = preprocess_input(image_array)  # Preprocess image for model input
+    image_array = np.expand_dims(image_array, axis=0) 
+    image_array = preprocess_input(image_array) 
     return image_array
 
 def predict_with_models(image, models):
-    # Get predictions from all models
+
     predictions = [model.predict(image) for model in models]
     return predictions
 
 def ensemble_predictions(predictions, weights):
-    # Assign higher weights to DenseNet and VGGNet (index 2 and 3 in model list)
-    weighted_votes = np.zeros(len(predictions[0][0]))  # Initialize an array to store weighted votes
-    
-    # Calculate weighted votes for each prediction
+
+    weighted_votes = np.zeros(len(predictions[0][0])) 
+ 
     for i, prediction in enumerate(predictions):
         predicted_class = prediction.argmax()
-        # Add the weight to the corresponding class vote
+ 
         weighted_votes[predicted_class] += weights[i]
 
-    # Get final prediction based on highest weighted vote
+    
     final_class = weighted_votes.argmax()
-    confidence = weighted_votes.max() / sum(weights)  # Confidence score is based on weighted votes
+    confidence = weighted_votes.max() / sum(weights) 
     
     st.write(f"Weighted Votes: {weighted_votes}")
     return final_class, confidence
